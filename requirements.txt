@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+selenium
+chromedriver_autoinstaller
+opencv-python
+pytesseract
+pydub
