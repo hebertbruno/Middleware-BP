@@ -5,3 +5,4 @@ chromedriver_autoinstaller
 opencv-python
 pytesseract
 pydub
+SpeechRecognition

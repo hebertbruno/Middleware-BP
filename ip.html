@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configuração de IPs</title>
+</head>
+<body>
+    <h1>Configurar IPs:</h1>
+    
+    <form>
+        <label for="ip1">IP 1:</label>
+        <input type="text" id="ip1" name="ip1" pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" required title="Digite um endereço IP válido no formato XXX.XXX.XXX.XXX">
+        <input type="button" value="OK" onclick="submitForm('ip1')"><br><br>
+        
+        <label for="ip2">IP 2:</label>
+        <input type="text" id="ip2" name="ip2" pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" required title="Digite um endereço IP válido no formato XXX.XXX.XXX.XXX">
+        <input type="button" value="OK" onclick="submitForm('ip2')"><br><br>
+        
+        <label for="ip3">IP 3:</label>
+        <input type="text" id="ip3" name="ip3" pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" required title="Digite um endereço IP válido no formato XXX.XXX.XXX.XXX">
+        <input type="button" value="OK" onclick="submitForm('ip3')"><br><br>
+    </form>
+
+    <script>
+        function submitForm(ipId) {
+            var ipAddress = document.getElementById(ipId).value;
+
+            // Verifica se o formato do IP é válido antes de enviar a solicitação
+            var ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            if (!ipPattern.test(ipAddress)) {
+                alert("Por favor, digite um endereço IP válido no formato XXX.XXX.XXX.XXX");
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            //Endereco de onde esta rodando o middleware
+            xhr.open('POST', 'http://localhost:5000/bpg2e_config', true);
+            // Resto do código para configurar e enviar a solicitação...
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("Configuração de IPs bem-sucedida!");
+                    } else {
+                        console.error("Erro na configuração de IPs: " + xhr.status);
+                    }
+                }
+            };
+            
+            // Enviar o IP para o servidor Flask
+            xhr.send("ip_name=" + ipAddress);
+        }
+    </script>
+</body>
+</html>

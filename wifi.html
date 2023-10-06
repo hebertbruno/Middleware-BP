@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo de Requisição POST</title>
+</head>
+<body>
+    <form id="configForm">
+        <label for="ssid">SSID:</label>
+        <input type="text" id="ssid" name="SSID"><br><br>
+
+        <label for="senha">Senha WiFi:</label>
+        <input type="password" id="senha" name="senha_wifi"><br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        const form = document.getElementById('configForm');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+
+            const url = 'http://localhost:5000/bpg2e_config_wifi';
+            const data = {
+              SSID: document.getElementById('ssid').value,
+              senha_wifi: document.getElementById('senha').value
+            };
+
+            fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Resposta do middleware:', data);
+            })
+            .catch(error => {
+              console.error('Erro ao chamar a rota:', error);
+            });
+        });
+    </script>
+</body>
+</html>
